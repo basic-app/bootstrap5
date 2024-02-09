@@ -18,13 +18,17 @@ class Publisher extends BasePublisher
 
     public function publish(): bool
     {
-        return $this->wipe()
-            ->downloadFile($this->url)
+        if (is_dir($this->destination . DIRECTORY_SEPARATOR . 'css'))
+        {
+            return true;
+        }
+
+        return $this->downloadFile($this->url)
             ->extractZipArchive($this->getScratch() . 'bootstrap-5.3.2-dist.zip')
             ->setSource($this->getScratch() . 'bootstrap-5.3.2-dist')
             ->addPath('css')
             ->addPath('js')
-            ->merge(true);
+            ->merge(false);
     }
 
 }
